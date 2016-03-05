@@ -8,11 +8,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class Calculator extends AppCompatActivity implements View.OnClickListener {
+
     Button sifir,bir,iki,uc,dort,bes,alti,yedi,sekiz,dokuz;
     Button ac,nokta,carp,bol,cikar,topla,esittir,sil;
     TextView sonuc;
+
     float sayi1= (float) 0.0,sayi2= (float) 0.0,hesap=0;
     int islem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,14 @@ public class Calculator extends AppCompatActivity implements View.OnClickListene
         topla.setOnClickListener(this);
         esittir.setOnClickListener(this);
         sil.setOnClickListener(this);
+    }
+    //OnCreateContext
+    //getMenuInflater().inflate(R.menu.altmenu,menu);
+
+
+    @Override
+    public void registerForContextMenu(View view) {
+        super.registerForContextMenu(view);
     }
 
     private void initialize() {
@@ -102,8 +113,10 @@ public class Calculator extends AppCompatActivity implements View.OnClickListene
                 sonuc.setText(sonuc.getText().toString()+".");
                 break;
             case R.id.btnSil:
-                String text = sonuc.getText().toString();
-                sonuc.setText(text.substring(0, text.length() - 1));
+                if(sonuc.getText().length()>0) {
+                    String text = sonuc.getText().toString();
+                    sonuc.setText(text.substring(0, text.length() - 1));
+                }
                 break;
             case R.id.btnTopla:
                 if(!sonuc.getText().toString().equals("")) {
@@ -157,10 +170,6 @@ public class Calculator extends AppCompatActivity implements View.OnClickListene
 
                 sonuc.setText(String.valueOf(hesap));
                 break;
-
-
-
-
 
         }
 
