@@ -1,8 +1,12 @@
 package com.mobilab.calculator;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,7 +19,7 @@ public class Calculator extends AppCompatActivity implements View.OnClickListene
 
     float sayi1= (float) 0.0,sayi2= (float) 0.0,hesap=0;
     int islem;
-
+    boolean flag=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,8 @@ public class Calculator extends AppCompatActivity implements View.OnClickListene
         topla.setOnClickListener(this);
         esittir.setOnClickListener(this);
         sil.setOnClickListener(this);
+
+
     }
     //OnCreateContext
     //getMenuInflater().inflate(R.menu.altmenu,menu);
@@ -75,6 +81,9 @@ public class Calculator extends AppCompatActivity implements View.OnClickListene
     @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View v) {
+        if(sonuc.getText().toString().equals("0") || sonuc.getText().toString().equals("0.0") || sonuc.getText().toString().equals("Infinity")){
+            sonuc.setText("");
+        }
         switch (v.getId()){
             case R.id.btn0:
                 sonuc.setText(sonuc.getText().toString()+"0");
@@ -120,10 +129,12 @@ public class Calculator extends AppCompatActivity implements View.OnClickListene
                 break;
             case R.id.btnTopla:
                 if(!sonuc.getText().toString().equals("")) {
-                    sayi1 = Float.parseFloat(sonuc.getText().toString());
+                        sayi1 =Float.parseFloat(sonuc.getText().toString());
                     islem=1;
+                    hesap=sayi1+hesap;
                     sonuc.setText("");
                 }
+
                 break;
             case R.id.btnCikar:
                 if(!sonuc.getText().toString().equals("")) {
@@ -134,7 +145,7 @@ public class Calculator extends AppCompatActivity implements View.OnClickListene
                 break;
             case R.id.btnCarp:
                 if(!sonuc.getText().toString().equals("")) {
-                    sayi1 = Float.parseFloat(sonuc.getText().toString());
+                        sayi1 = Float.parseFloat(sonuc.getText().toString());
                     islem=3;
                     sonuc.setText("");
                 }
@@ -147,19 +158,19 @@ public class Calculator extends AppCompatActivity implements View.OnClickListene
                 }
                 break;
             case R.id.btnEsittir:
-                if(islem==1){
+                if(islem==1 && !sonuc.getText().toString().equals("")){
                     sayi2=Float.parseFloat(sonuc.getText().toString());
-                    hesap=sayi1+sayi2;
+                    hesap=hesap+sayi2;
                 }
-                else if(islem==2){
+                else if(islem==2 && !sonuc.getText().toString().equals("")){
                     sayi2=Float.parseFloat(sonuc.getText().toString());
                     hesap=sayi1-sayi2;
                 }
-                else if(islem==3){
+                else if(islem==3 && !sonuc.getText().toString().equals("")){
                     sayi2=Float.parseFloat(sonuc.getText().toString());
                     hesap=sayi1*sayi2;
                 }
-                else if(islem==4){
+                else if(islem==4 && !sonuc.getText().toString().equals("")){
                     sayi2=Float.parseFloat(sonuc.getText().toString());
                     try {
                         hesap=sayi1/sayi2;
@@ -167,11 +178,54 @@ public class Calculator extends AppCompatActivity implements View.OnClickListene
                         sonuc.setText("0");
                     }
                 }
-
                 sonuc.setText(String.valueOf(hesap));
+                hesap=0;
                 break;
-
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.about:
+                AlertDialog.Builder alert=new AlertDialog.Builder(this);
+                    alert.setMessage("Erciyes University Mobil Application Developer Groups").setCancelable(false);
+                    alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
+                return true;
+            case  R.id.logout:
+                alert = new AlertDialog.Builder(this);
+
+                alert.setMessage("Are you sure to exit?").setCancelable(false);
+                alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alertDialog = alert.create();
+                alertDialog.show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

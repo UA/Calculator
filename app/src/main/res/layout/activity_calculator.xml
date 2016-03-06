@@ -150,16 +150,18 @@
         android:id="@+id/btn0"
         android:layout_below="@+id/btn1"
         android:layout_alignLeft="@+id/btn1"
-        android:layout_alignStart="@+id/btn1" />
+        android:layout_alignStart="@+id/btn1"
+        android:layout_alignRight="@+id/btn2"
+        android:layout_alignEnd="@+id/btn2" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="."
         android:id="@+id/btnNokta"
-        android:layout_below="@+id/btn1"
-        android:layout_toRightOf="@+id/btn0"
-        android:layout_toEndOf="@+id/btn0" />
+        android:layout_below="@+id/btn3"
+        android:layout_toLeftOf="@+id/btnEsittir"
+        android:layout_toStartOf="@+id/btnEsittir" />
 
     <Button
         android:layout_width="wrap_content"
